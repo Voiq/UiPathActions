@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-16"?>
+<ObjectRepositoryTargetData ContentHash="p7NP3ZPjlEWy8uLkejp3_w" xmlns="http://schemas.uipath.com/workflow/activities/uix" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=System.Private.CoreLib" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <ObjectRepositoryTargetData.Data>
+    <TargetAnchorable x:Key="TargetAnchorable" BrowserURL="digitpass.acthosts.com/signin" CVScreenId="b771c28f-7837-4686-a8e3-a5e6de8ae399" CvElementArea="1184, 578, 577, 64" CvType="InputBox" DesignTimeRectangle="1186, 581, 574, 60" ElementType="InputBox" FuzzySelectorArgument="&lt;webctrl tag='INPUT' type='email' class='flex h-10 rounded-md border bg-background px-3 py-2 text-base ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 md:text-sm w-full border-gray-300' placeholder='Enter your email' aaname='' matching:class='fuzzy' fuzzylevel:class='0.0' matching:aaname='fuzzy' fuzzylevel:aaname='0.0' /&gt;" Guid="352b2820-fb37-4e0a-8d22-1d491beda4be" IsResponsive="True" ScopeSelectorArgument="&lt;html app='chrome.exe' title='digitpass.acthosts.com/signin' /&gt;" SearchSteps="FuzzySelector, CV" Version="V6" Visibility="Interactive" WaitForReadyArgument="None">
+      <TargetAnchorable.Anchors>
+        <scg:List x:TypeArguments="ITarget" Capacity="4">
+          <Target CVScreenId="b771c28f-7837-4686-a8e3-a5e6de8ae399" CvTextArea="1184, 540, 55, 21" CvTextArgument="Email" CvType="Text" DesignTimeRectangle="1186, 539, 54, 25" ElementType="Text" FuzzySelectorArgument="&lt;webctrl tag='LABEL' type='' class='peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-sm font-medium text-gray-700' aaname='Email' matching:class='fuzzy' fuzzylevel:class='0.0' matching:aaname='fuzzy' fuzzylevel:aaname='0.0' check:innerText='Email' /&gt;" Guid="429823a4-0bc1-4ec2-aa8d-49381c85cad6" SearchSteps="FuzzySelector, CV" />
+        </scg:List>
+      </TargetAnchorable.Anchors>
+      <imageRef attrName="InformativeScreenshot" originalValue="ae04aab690350ae1f660314fd8a0db04.png" xmlns="">0QuLaVzasL0WCg6L6WFZ8wQ</imageRef>
+    </TargetAnchorable>
+    <x:String x:Key="ActivityType">TypeInto</x:String>
+  </ObjectRepositoryTargetData.Data>
+</ObjectRepositoryTargetData>

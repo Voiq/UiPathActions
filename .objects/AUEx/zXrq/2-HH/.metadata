@@ -1,0 +1,13 @@
+﻿{
+  "Name": "Chrome digitpass.acthosts.comsignin",
+  "Type": "Screen",
+  "Id": "2-HHWUPb4ESjTpsPWka4Ug",
+  "Reference": "EXnjng4oSkilouKct6xnEA/2-HHWUPb4ESjTpsPWka4Ug",
+  "ParentRef": "EXnjng4oSkilouKct6xnEA/zXrqzbh3mESFWzYl-Ux8cw",
+  "Created": "2025-06-25T09:53:46.9432937Z",
+  "Updated": "2025-06-25T09:53:46.9432937Z",
+  "CreatedBy": [
+    "UiPath.UIAutomationCore, Version=25.10.4.0, Culture=neutral, PublicKeyToken=null",
+    "UiPath.Platform, Version=25.4.0.0, Culture=neutral, PublicKeyToken=null"
+  ]
+}
