@@ -2,11 +2,11 @@ name: Run UiPath Test on Push
 
 on:
   push:
-    branches: [ main ]  # Change if needed
+    branches: [ main ]
 
 jobs:
   run-uipath-test:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest  # UiPath CLI works better on Windows runners
     
     steps:
       # 1. Checkout the code
@@ -17,16 +17,13 @@ jobs:
       - name: Setup .NET
         uses: actions/setup-dotnet@v3
         with:
-          dotnet-version: '6.0.x'  # UiPath CLI requires .NET 6+
+          dotnet-version: '6.0.x'
 
-      # 3. Manually download & install UiPath CLI
+      # 3. Install UiPath CLI via NuGet
       - name: Install UiPath CLI
         run: |
-          # Download the latest UiPath CLI
-          curl -L "https://www.myget.org/F/uipath-dev/api/v2/package/UiPath.CLI/1.0.0" -o uipath-cli.zip
-          mkdir -p ~/.uipath
-          unzip uipath-cli.zip -d ~/.uipath/cli
-          echo "$HOME/.uipath/cli" >> $GITHUB_PATH  # Add to PATH
+          dotnet tool install --global UiPath.CLI --version 23.10.0
+          echo "$HOME/.dotnet/tools" >> $GITHUB_PATH
 
       # 4. Authenticate with Orchestrator
       - name: Authenticate
