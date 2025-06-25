@@ -1,63 +1,34 @@
-name: Run UiPath Test Set via API
+name: Run UiPath Test on Push
 
 on:
   push:
-    branches:
-      - main
+    branches: [ main ] # Change this to your default branch if different
 
 jobs:
-  trigger-uipath-test:
+  run-uipath-test:
     runs-on: ubuntu-latest
-
+    
     steps:
-      - name: Install jq (for JSON parsing)
-        run: sudo apt-get update && sudo apt-get install -y jq
-
-      - name: Trigger digitPass_US Test Set via Orchestrator API
-        run: |
-          # Step 1: Get Auth Token
-          TOKEN_RESPONSE=$(curl -s -X POST "https://account.uipath.com/oauth/token" \
-            -H "Content-Type: application/json" \
-            -d '{
-              "grant_type": "refresh_token",
-              "client_id": "'"${{ secrets.UI_ID }}"'",
-              "refresh_token": "'"${{ secrets.UI_SECRET }}"'"
-            }')
-
-          ACCESS_TOKEN=$(echo "$TOKEN_RESPONSE" | jq -r '.access_token')
-
-          if [ "$ACCESS_TOKEN" = "null" ] || [ -z "$ACCESS_TOKEN" ]; then
-            echo "❌ Failed to get access token"
-            exit 1
-          fi
-
-          # Step 2: Set base URL
-          ORG_URL="https://cloud.uipath.com/${{ secrets.UI_ACC }}/${{ secrets.TEN }}"
-
-          # Step 3: Get Test Set ID from default folder (ID: 0)
-          TEST_SET_NAME="${{ secrets.UIPATH_TEST_SET_NAME }}"
-          TEST_SET_ID=$(curl -s -X GET "$ORG_URL/odata/TestSets?\$filter=Name eq '$TEST_SET_NAME'" \
-            -H "Authorization: Bearer $ACCESS_TOKEN" \
-            -H "X-UIPATH-OrganizationUnitId: 0") | jq -r '.value[0].Id'
-
-          if [ "$TEST_SET_ID" = "null" ] || [ -z "$TEST_SET_ID" ]; then
-            echo "❌ Test Set '$TEST_SET_NAME' not found in default folder"
-            exit 1
-          fi
-
-          # Step 4: Start Test Execution
-          RESPONSE=$(curl -s -X POST "$ORG_URL/odata/TestSetExecutions/UiPath.Server.Configuration.OData.ExecuteTestSet" \
-            -H "Authorization: Bearer $ACCESS_TOKEN" \
-            -H "Content-Type: application/json" \
-            -H "X-UIPATH-OrganizationUnitId: 0" \
-            -d "{ \"testSetId\": $TEST_SET_ID }")
-
-          JOB_ID=$(echo "$RESPONSE" | jq -r '.value[0].Id')
-
-          if [ "$JOB_ID" = "null" ] || [ -z "$JOB_ID" ]; then
-            echo "❌ Failed to start test execution"
-            echo "Response: $RESPONSE"
-            exit 1
-          fi
-
-          echo "✅ Test set '$TEST_SET_NAME' started successfully (Job ID: $JOB_ID)"
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Run UiPath Test
+      id: run-test
+      uses: UiPath/action-orchestrator@v1
+      with:
+        orchestrator_url: "https://platform.uipath.com" # Default UiPath Orchestrator URL
+        orchestrator_tenant: ${{ secrets.TEN }}
+        orchestrator_account: ${{ secrets.UI_ACC }}
+        orchestrator_client_id: ${{ secrets.UI_ID }}
+        orchestrator_client_secret: ${{ secrets.UI_SECRET }}
+        process_name: "digitPass_US"
+        process_type: "Test"
+        folder_organization_unit: "Default" # Change to your folder if different
+        strategy: "Specific"
+        
+    - name: Check job status
+      run: |
+        if [ "${{ steps.run-test.outputs.status }}" != "Successful" ]; then
+          echo "UiPath test failed with status: ${{ steps.run-test.outputs.status }}"
+          exit 1
+        fi
