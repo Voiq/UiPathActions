@@ -6,7 +6,7 @@ on:
 
 jobs:
   run-uipath-test:
-    runs-on: windows-latest  # UiPath CLI works better on Windows runners
+    runs-on: windows-latest  # Required for UiPath CLI
     
     steps:
       # 1. Checkout the code
@@ -19,9 +19,13 @@ jobs:
         with:
           dotnet-version: '6.0.x'
 
-      # 3. Install UiPath CLI via NuGet
+      # 3. Add UiPath MyGet feed and install CLI
       - name: Install UiPath CLI
         run: |
+          # Add UiPath MyGet feed
+          dotnet nuget add source https://www.myget.org/F/uipath-dev/api/v3/index.json -n uipath-dev
+          
+          # Install UiPath CLI
           dotnet tool install --global UiPath.CLI --version 23.10.0
           echo "$HOME/.dotnet/tools" >> $GITHUB_PATH
 
